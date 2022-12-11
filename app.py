@@ -99,5 +99,17 @@ class MoviesView(Resource):
 
         return 'Movie added', 201
 
+@movies_ns.route('/<int:uid>')
+class MovieView(Resource):
+    def get(self, uid: int):
+        movie = db.session.query(Movie).get(uid)
+        if not movie:
+            return "Movie not found", 404
+        else:
+            return movie_schema.dump(movie), 200
+        '''View для получения фильма по uid'''
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
